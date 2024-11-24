@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+
+  <title>Yılbaşı Geri Sayım</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Times New Roman', Times, serif, sans-serif;
+      display: flex;
+
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('last.png') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-shadow: 2px 2px 8px black;
+    }
+    .countdown {
+      text-align: center;
+      text-shadow: 2px 1px 5px rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #41050d96;
+            border: 5px solid #ddb46c;
+    }
+    .countdown span {
+            padding: 0 10px;
+        }
+        .countdown div {
+            display: inline-block;
+            margin: 0 5px;
+        }
+        .animation-container {
+            position: absolute;
+            top: 5px;
+            left: 20px;
+            right: 20px;
+            z-index: 1;
+            animation: snow 2s linear infinite;
+        }
+        .snowflake {
+            position: absolute;
+            color: white;
+            font-size: 20px;
+            animation: fall 5s infinite linear;
+        }
+        @keyframes snow {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+        @keyframes fall {
+            0% { top: -20px; }
+            100% { top: 100vh; }
+        }
+        .fireworks {
+            position: absolute;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0;
+            animation: fireworks 1s forwards;
+        }
+        @keyframes fireworks {
+            0% { opacity: 1; transform: scale(0.5); }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+    .countdown h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+    .countdown .time {
+      font-size: 2rem;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .time div {
+      text-align: center;
+    }
+    .time div span {
+      display: block;
+      font-size: 4rem;
+    }
+  </style>
+</head>
+<body>
+  
+  
+    
+    <button id="fullscreenButton">Tam Ekran Yap</button>
+
+    <script>
+        // Tam ekran fonksiyonu
+        function goFullscreen() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                document.documentElement.msRequestFullscreen();
+            }
+        }
+
+        // Tam ekran moduna girildiğinde butonu gizleme
+        function handleFullscreenChange() {
+            if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                // Tam ekran modunda butonu gizle
+                document.getElementById('fullscreenButton').style.display = 'none';
+            } else {
+                // Tam ekran modunda değilse butonu göster
+                document.getElementById('fullscreenButton').style.display = 'block';
+            }
+        }
+
+        // Tam ekran değişimini dinle
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+        // Butona tıklama olayı
+        document.getElementById('fullscreenButton').addEventListener('click', goFullscreen);
+    </script>
+
+  
+
+
+
+  <div class="countdown">
+    <h1>Yılbaşına Geri Sayım</h1>
+    <div class="time">
+      <div><span id="days">00</span>Gün</div>
+      <div><span id="hours">00</span>Saat</div>
+      <div><span id="minutes">00</span>Dakika</div>
+      <div><span id="seconds">00</span>Saniye</div>
+    </div>
+  </div>
+
+  
+
+
+
+
+</div>
+
+  <script>
+   const countdownDate = new Date("Jan 1, 2025 00:00:00").getTime();
+
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours;
+            document.getElementById("minutes").innerText = minutes;
+            document.getElementById("seconds").innerText = seconds;
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("timer").innerHTML = "Mutli Yillar!";
+                triggerFireworks();
+            }
+        }, 1000);
+
+        function triggerFireworks() {
+            for (let i = 0; i < 5; i++) {
+                const fireworks = document.createElement('div');
+                fireworks.classList.add('fireworks');
+                fireworks.style.left = Math.random() * 100 + 'vw';
+                fireworks.style.top = Math.random() * 100 + 'vh';
+                document.body.appendChild(fireworks);
+                setTimeout(() => {
+                    fireworks.style.animation = 'fireworks 1s forwards';
+                }, 100);
+            }
+        }
+  </script>
+</body>
+</html>
